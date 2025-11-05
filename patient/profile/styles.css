@@ -1,0 +1,265 @@
+/* Header Styling */
+header {
+    background-color: #003366;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .auth-links a {
+    margin-right: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+header .auth-links a:hover {
+    color: #ff9900;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #ff9900; /* Match hover color with other elements */
+}
+
+/* Hero Section */
+#home.hero {
+    background: url('hero-image.jpg') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    color: #ff9900; /* Changed text color */
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    color: #ff9900;
+    margin-bottom: 30px;
+}
+
+.hero-content .btn {
+    background-color: #ff9900;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.hero-content .btn:hover {
+    background-color: #e68a00;
+}
+/* Patient Profile Section */
+.profile {
+    padding: 60px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.profile h2 {
+    font-size: 36px;
+    color: #003366;
+    margin-bottom: 40px;
+}
+
+.profile-card {
+    background-color: #f0f4f8;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 30px;
+    text-align: left;
+    transition: transform 0.3s;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+}
+
+.profile-card h3 {
+    font-size: 28px;
+    color: #003366;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.profile-table td {
+    padding: 12px 10px;
+    font-size: 16px;
+    color: #333;
+    vertical-align: top;
+}
+
+.profile-table td:first-child {
+    font-weight: bold;
+    width: 35%;
+    color: #003366;
+}
+
+.profile a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff9900;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.profile a:hover {
+    background-color: #e68a00;
+}
+
+/* Responsive for profile section */
+@media (max-width: 600px) {
+    .profile-card {
+        padding: 30px 20px;
+    }
+
+    .profile-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .profile-table td:first-child {
+        margin-top: 10px;
+    }
+}
+/* Contact Section */
+#contact.section {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+}
+
+#contact h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #003366; /* Change title color */
+}
+
+.contact-info {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.contact-info p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.contact-info i {
+    margin-right: 10px;
+}
+
+.contact-form {
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 column layout for form */
+    gap: 20px;
+    justify-items: center;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.contact-form button {
+    background-color: #003366;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+}
+
+.contact-form button:hover {
+    background-color: #ff9900;
+}
+
+/* Footer */
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    transition: background-color 0.3s ease;
+}
+
+footer p {
+    font-size: 16px;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+footer a:hover {
+    color: #ff9900; /* Hover effect on links in footer */
+}
+
+/* Footer hover effect */
+footer:hover {
+    background-color: #0055aa; /* Darker shade of blue when hovering over footer */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;  /* Ensure cards are responsive */
+    }
+
+    .contact-form {
+        grid-template-columns: 1fr; /* Stack inputs on smaller screens */
+    }
+}

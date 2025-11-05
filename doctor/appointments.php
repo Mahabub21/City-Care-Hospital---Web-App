@@ -1,0 +1,356 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'doctor') {
+    header("Location: ../login.php");
+    exit();
+}
+
+include './config.php'; // DB connection
+
+// Handle status update
+if (isset($_GET['update']) && isset($_GET['status'])) {
+    $id = intval($_GET['update']);
+    $status = $_GET['status'];
+    $conn->query("UPDATE appointments SET status='$status' WHERE id=$id");
+    header("Location: doctor_appointments.php");
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Appointments - City Care Hospital</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+
+    <style>
+        /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #f4f7f6;
+    color: #333; /* Default text color */
+    padding: 0;
+    margin: 0;
+}
+
+/* Header Styling */
+header {
+    background-color: #003366;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .auth-links a {
+    margin-right: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header .auth-links a:hover {
+    color: #ff9900;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav ul li a:hover {
+    color: #ff9900;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+header .logo i {
+    margin-right: 10px;
+}
+
+/* Hero Section */
+#home.hero {
+    background: url('hero-image.jpg') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    color: #ff9900; /* Changed text color */
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    color: #ff9900;
+    margin-bottom: 30px;
+}
+
+.hero-content .btn {
+    background-color: #ff9900;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.hero-content .btn:hover {
+    background-color: #e68a00;
+}
+
+/* Dashboard Section */
+.dashboard {
+    padding: 40px 20px;
+    background-color: #eaf4fc;
+    text-align: center;
+}
+
+.dashboard h2 {
+    font-size: 36px;
+    color: #003366;
+    margin-bottom: 30px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 250px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card i {
+    font-size: 40px;
+    color: #003366;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color:  #ff9900;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.card a:hover {
+    background-color: #0055aa;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Contact Section */
+#contact.section {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+}
+
+#contact h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #003366; /* Change title color */
+}
+
+.contact-info {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.contact-info p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.contact-info i {
+    margin-right: 10px;
+}
+
+.contact-form {
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 column layout for form */
+    gap: 20px;
+    justify-items: center;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.contact-form button {
+    background-color: #003366;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+}
+
+.contact-form button:hover {
+    background-color: #ff9900;
+}
+
+/* Footer */
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+footer p {
+    font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;  /* Ensure cards are responsive */
+    }
+
+    .contact-form {
+        grid-template-columns: 1fr; /* Stack inputs on smaller screens */
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo"><i class="fas fa-hospital"></i> City Care Hospital</div>
+    <nav>
+        <ul>
+            <li><a href="./doctor_dashboard.php">Dashboard</a></li>
+            <li><a href="#appointments">Appointments</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="auth-links"><h1>DOCTOR</h1></div>
+</header>
+
+<section class="dashboard" id="appointments">
+    <h2>Your Appointments</h2>
+    <div class="card-container">
+        <?php
+        $doctor_id = $_SESSION['user_id'];
+        $sql = "SELECT a.*, u.first_name AS patient_first, u.last_name AS patient_last 
+                FROM appointments a
+                JOIN users u ON a.user_id = u.id
+                WHERE a.doctor_id = $doctor_id
+                ORDER BY a.appointment_date DESC";
+        $result = mysqli_query($conn, $sql);
+
+        if ($result && mysqli_num_rows($result) > 0):
+            while ($row = mysqli_fetch_assoc($result)):
+        ?>
+        <div class="card">
+            <i class="fas fa-user-md"></i>
+            <h3><?= htmlspecialchars($row['patient_first'] . ' ' . $row['patient_last']) ?></h3>
+            <p><strong>Date:</strong> <?= date('F j, Y, g:i A', strtotime($row['appointment_date'])) ?></p>
+            <p><strong>Status:</strong> <?= htmlspecialchars($row['status']) ?></p>
+
+            <?php if ($row['status'] == 'Pending'): ?>
+                <a href="?update=<?= $row['id'] ?>&status=Confirmed" class="btn confirm-btn">Confirm</a>
+            <?php endif; ?>
+
+            <?php if ($row['status'] == 'Confirmed'): ?>
+                <a href="?update=<?= $row['id'] ?>&status=Completed" class="btn complete-btn">Mark as Completed</a>
+            <?php endif; ?>
+        </div>
+        <?php endwhile; else: ?>
+            <p>No appointments found.</p>
+        <?php endif; ?>
+    </div>
+</section>
+
+<section id="contact" class="section">
+    <h2>Contact Us</h2>
+    <div class="contact-info">
+        <p><i class="fas fa-envelope"></i> Email: contact@citycare.com</p>
+        <p><i class="fas fa-phone"></i> Phone: +123 456 7890</p>
+        <p><i class="fas fa-map-marker-alt"></i> Address: 123 Healthcare Street, Your City</p>
+        <p><i class="fas fa-clock"></i> Open: 24/7 Emergency Services</p>
+    </div>
+    <div class="contact-form">
+        <h3>Get in Touch</h3>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 City Care Hospital. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
